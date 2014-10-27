@@ -19,7 +19,7 @@ function hinet_radio_url()
 }
 
 # example
-RADIO_ID="228"
+RADIO_ID='228'
 URL=''
 hinet_radio_url $RADIO_ID URL
 
