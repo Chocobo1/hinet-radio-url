@@ -2,7 +2,7 @@
 # Copyright (C) 2014  Mike Tzou
 # This script is licensed under GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
 
-function hinet_radio_url()
+function hinet_radio_play_url()
 {
 	# $1=(input)station ID, $2=(ouput)variable for returning the result URL
 
@@ -24,7 +24,7 @@ function hinet_radio_url()
 # example
 RADIO_ID='228'
 URL=''
-hinet_radio_url $RADIO_ID URL
+hinet_radio_play_url $RADIO_ID URL
 
 # output
 ECHO=/usr/bin/echo
