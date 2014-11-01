@@ -2,7 +2,7 @@
 # Copyright (C) 2014  Mike Tzou
 # This script is licensed under GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
 
-function hinet_radio_play_url()
+function hinetRadioStreamUrl()
 {
 	# $1=(input)station ID, $2=(ouput)variable for returning the result URL
 
@@ -10,25 +10,27 @@ function hinet_radio_play_url()
 	local ECHO=/usr/bin/echo
 	local GREP=/usr/bin/grep
 	local WGET='/usr/bin/wget -q -t 3 -O -'
+	
+	local base_url="http://hichannel.hinet.net/radio/mobile/index.do?id=$1"
+	local url1="$( $WGET "$base_url" | $GREP -Po "'\K.+token1.+token2.+?(?=')" | $SED 's/\\//g')"
 
-	local BASE_URL="http://hichannel.hinet.net/radio/mobile/index.do?id=$1"
-	local URL1="$($WGET "$BASE_URL" | $GREP -Po "'\K.+token1.+token2.+?(?=')" | $SED 's/\\//g')"
-	local URL2=''
-	while [ -z $URL2 ]; do
-		URL2="$($WGET "$URL1" | $GREP -Po "\K.+token1.+token2.+" | $SED 's/-video=0//g' )"
+	local url2=''
+	while [ -z $url2 ]; do
+		url2="$( $WGET "$url1" | $GREP -Po "\K.+token1.+token2.+" | $SED 's/-video=0//g' )"
 	done
-	local URL3="$($ECHO "$URL1" | $SED 's/index.m3u8.*$//g')""$URL2"
-	eval $2=\$URL3
+
+	local url3="$( $ECHO "$url1" | $SED 's/index.m3u8.*$//g')$url2"
+	eval $2=\$url3
 }
 
 # example
-RADIO_ID='228'
-URL=''
-hinet_radio_play_url $RADIO_ID URL
+station_id='228'
+stream_url=''
+hinetRadioStreamUrl $station_id stream_url
 
 # output
 ECHO=/usr/bin/echo
 $ECHO
-$ECHO "Radio ID: $RADIO_ID"
+$ECHO "Station ID: $station_id"
 $ECHO
-$ECHO "URL: $URL"
+$ECHO "Stream URL: $stream_url"
