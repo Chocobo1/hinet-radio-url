@@ -33,7 +33,9 @@ def hinet_radio_stream_url( id ):
 
 if __name__ == "__main__":
 	if ( len( sys.argv ) < 2 ):
-		print hinet_radio_stream_url( 228 )
+		id = 228
+		print ( "\nStation ID: %d\n\nStream URL: %s\n" ) % ( id , hinet_radio_stream_url( id ) )
 	else:
 		for i in sys.argv[1:]:
-			print hinet_radio_stream_url( int( i ) )
+			j = int( i )
+			print ( "\nStation ID: %d\n\nStream URL: %s\n" ) % ( j , hinet_radio_stream_url( j ) )
