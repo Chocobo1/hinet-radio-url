@@ -32,10 +32,10 @@ def hinet_radio_stream_url( id ):
 
 
 if __name__ == "__main__":
-	if ( len( sys.argv ) < 2 ):
-		id = 228
-		print ( "\nStation ID: %d\n\nStream URL: %s\n" ) % ( id , hinet_radio_stream_url( id ) )
-	else:
-		for i in sys.argv[1:]:
-			j = int( i )
-			print ( "\nStation ID: %d\n\nStream URL: %s\n" ) % ( j , hinet_radio_stream_url( j ) )
+	id = sys.argv[1:]
+	if ( len( id ) == 0 ):
+		id = [228]
+
+	for i in id:
+		j = int( i )
+		print ( "\nStation ID: %d\n\nStream URL: %s\n" ) % ( j , hinet_radio_stream_url( j ) )
