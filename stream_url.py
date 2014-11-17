@@ -33,7 +33,7 @@ def hinet_radio_stream_url( id ):
 
 if __name__ == "__main__":
 	id = sys.argv[1:]
-	if ( len( id ) == 0 ):
+	if not id:
 		id = [228]
 
 	for i in id:
