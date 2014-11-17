@@ -1,12 +1,19 @@
 #!/bin/python2
-# Copyright (C) 2014 Mike Tzou
-# This script is licensed under GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
+"""
+Copyright (C) 2014 Mike Tzou
+This script is licensed under GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
+"""
 
 import re , urllib , numbers
 
-# input `id` is an integer
-# return empty string when error occurs
 def hinet_radio_stream_url( id ):
+	"""
+	return radio stream url for `id`
+	return empty string when error occurs
+
+	arguments:
+	id (integer) -- should be a valid radio ID
+	"""
 
 	# naive input checking
 	if not isinstance( id , numbers.Integral ):
