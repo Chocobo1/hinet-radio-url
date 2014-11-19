@@ -8,11 +8,11 @@ import re , urllib , numbers
 
 def hinet_radio_stream_url( id ):
 	"""
-	return radio stream url for `id`
+	return HLS url for radio station `id`
 	return empty string when error occurs
 
 	arguments:
-	id (integer) -- should be a valid radio ID
+	id (integer) -- should be valid radio station ID
 	"""
 
 	# naive input checking
