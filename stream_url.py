@@ -26,11 +26,11 @@ def hinet_radio_stream_url( id ):
 	if url1 == None:
 		return ""
 	url1 = url1.group()
-	url1 = re.sub( r"\\" , "" , url1 )
+	url1 = url1.replace( "\\" , "" )
 
 	url2 = urllib.urlopen( url1 ).read()
 	url2 = re.search( ".+token1.+token2.+" , url2 ).group()
-	url2 = re.sub( "-video=0" , "" , url2 )
+	url2 = url2.replace( "-video=0" , "" )
 
 	url3 = re.sub( "index.m3u8.*$" , "" , url1 ) + url2
 	return url3
