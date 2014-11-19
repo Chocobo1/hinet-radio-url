@@ -12,8 +12,8 @@ function hinetRadioStationId()
 
 	local data="$($WGET "$base_url")"
 	IFS=$'\n'
-	local id_list=( $( $ECHO $data | $GREP -Po "\?id=\K.+?(?=')" ) )
-	local name_list=( $( $ECHO $data | $GREP -Po 'stationName">\K.+?(?=<)' ) )
+	local id_list=( $( $ECHO $data | $GREP -Po "(?<=\?id=).+?(?=')" ) )
+	local name_list=( $( $ECHO $data | $GREP -Po '(?<=stationName">).+?(?=<)' ) )
 
 	for i in "${!name_list[@]}"
 	do

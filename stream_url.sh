@@ -12,11 +12,11 @@ function hinetRadioStreamUrl()
 	local WGET='/usr/bin/wget -q -t 3 -O -'
 	
 	local base_url="http://hichannel.hinet.net/radio/mobile/index.do?id=$1"
-	local url1="$( $WGET "$base_url" | $GREP -Po "'\K.+token1.+token2.+?(?=')" | $SED 's/\\//g')"
+	local url1="$( $WGET "$base_url" | $GREP -Po "(?<=').+token1.+token2.+?(?=')" | $SED 's/\\//g')"
 
 	local url2=''
 	while [ -z $url2 ]; do
-		url2="$( $WGET "$url1" | $GREP -Po "\K.+token1.+token2.+" | $SED 's/-video=0//g' )"
+		url2="$( $WGET "$url1" | $GREP -Po "^.+token1.+token2.+" | $SED 's/-video=0//g' )"
 	done
 
 	local url3="$( $ECHO "$url1" | $SED 's/index.m3u8.*$//g')$url2"
