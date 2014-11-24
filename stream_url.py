@@ -14,11 +14,11 @@ def hinet_radio_stream_url( id ):
 	id -- should be valid radio station ID
 	"""
 
-	base_url = "http://hichannel.hinet.net/radio/mobile/index.do?id=" + str( id )
-	base_url_data = urllib.urlopen( base_url ).read()
+	url0 = "http://hichannel.hinet.net/radio/mobile/index.do?id=" + str( id )
+	url0 = urllib.urlopen( url0 ).read()
 
 	try:
-		url1 = re.search( "(?<=').+token1.+token2.+?(?=')" , base_url_data ).group()
+		url1 = re.search( "(?<=').+token1.+token2.+?(?=')" , url0 ).group()
 	except AttributeError:
 		raise IOError( "variable `id` invalid" )
 	url1 = url1.replace( "\\" , "" )
