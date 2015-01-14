@@ -8,10 +8,15 @@ import re , urllib
 
 def hinet_radio_stream_url( id ):
 	"""
-	return HLS url for radio station `id`
+	returns a dict for radio station `id`
+	dict fields:
+		Id = Station's Id number
+		Name = Station's name
+		Program = Station's current program/show
+		Url = Station's HLS stream URL
 
-	arguments:
-	id -- should be valid radio station ID
+	input arguments:
+	id = should be valid radio station ID
 	"""
 
 	url0 = "http://hichannel.hinet.net/radio/index.do?id=" + str( id )
@@ -22,13 +27,16 @@ def hinet_radio_stream_url( id ):
 	except AttributeError:
 		raise IOError( "variable `id` invalid" )
 	url1 = url1.replace( "\\" , "" )
-
 	url2 = urllib.urlopen( url1 ).read()
 	url2 = re.search( "^.+token1.+token2.+" , url2 , re.MULTILINE ).group()
 	url2 = url2.replace( "-video=0" , "" )
-
 	url3 = re.sub( "index.m3u8.*$" , "" , url1 ) + url2
-	return url3
+
+	name = re.search( "(?<=\"name\">).+?(?=<)" , url0 ).group()
+
+	program = re.search( "(?<=programArea\">).+?(?=<)" , url0 ).group()
+
+	return { 'Id' : id , 'Name' : name , 'Program' : program , 'Url' : url3 }
 
 
 import sys
@@ -39,6 +47,10 @@ if __name__ == "__main__":
 
 	for i in id:
 		try:
-			print ( "\nStation ID: %s\n\nStream URL: %s\n" ) % ( str( i ) , hinet_radio_stream_url( i ) )
+			l = hinet_radio_stream_url( i )
+			print ( "\nID: %s" ) % l['Id']
+			print ( "Name: %s" ) % l['Name'].decode( 'utf-8' ).encode( 'big5' )
+			print ( "Program: %s" ) % l['Program'].decode( 'utf-8' ).encode( 'big5' )
+			print ( "\nURL: %s" ) % l['Url']
 		except IOError:
 			pass

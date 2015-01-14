@@ -4,7 +4,10 @@
 
 function hinetRadioStreamUrl()
 {
-	# $1=(input)station ID, $2=(ouput)variable for returning the result URL
+	# $1=(input)Station's ID number
+	# $2=(ouput)Station's name
+	# $3=(ouput)Station's current program/show
+	# $4=(ouput)Station's HLS stream URL
 
 	local SED=/usr/bin/sed
 	local ECHO=/usr/bin/echo
@@ -12,25 +15,35 @@ function hinetRadioStreamUrl()
 	local WGET='/usr/bin/wget -q -t 3 -O -'
 	
 	local base_url="http://hichannel.hinet.net/radio/index.do?id=$1"
-	local url1="$( $WGET "$base_url" | $GREP -Po "(?<=').+token1.+token2.+?(?=')" | $SED 's/\\//g')"
-
+	local url0="$( $WGET "$base_url" )"
+	local url1="$( $ECHO "$url0" | $GREP -Po "(?<=').+token1.+token2.+?(?=')" | $SED 's/\\//g')"
 	local url2=''
 	while [ -z $url2 ]; do
 		url2="$( $WGET "$url1" | $GREP -Po "^.+token1.+token2.+" | $SED 's/-video=0//g' )"
 	done
-
 	local url3="$( $ECHO "$url1" | $SED 's/index.m3u8.*$//g')$url2"
-	eval $2=\$url3
+
+	local name1="$( $ECHO "$url0" | $GREP -Po "(?<=\"name\">).+?(?=<)" )"
+
+	local program1="$( $ECHO "$url0" | $GREP -Po "(?<=programArea\">).+?(?=<)" )"
+
+	eval $2=\$name1
+	eval $3=\$program1
+	eval $4=\$url3
 }
 
 # example
-station_id='228'
-stream_url=''
-hinetRadioStreamUrl $station_id stream_url
+id='228'
+name=''
+program=''
+url=''
+hinetRadioStreamUrl $id name program url
 
 # output
 ECHO=/usr/bin/echo
 $ECHO
-$ECHO "Station ID: $station_id"
+$ECHO "Station ID: $id"
+$ECHO "Station Name: $name"
+$ECHO "Station Program: $program"
 $ECHO
-$ECHO "Stream URL: $stream_url"
+$ECHO "Stream URL: $url"
