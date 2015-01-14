@@ -8,16 +8,16 @@ function hinetRadioStationId()
 	local GREP=/usr/bin/grep
 	local SORT=/usr/bin/sort
 	local WGET='/usr/bin/wget -q -t 3 -O -'
-	local base_url="http://hichannel.hinet.net/radio/mobile/index.do"
+	local base_url="http://hichannel.hinet.net/radio/index.do"
 
 	local data="$($WGET "$base_url")"
 	IFS=$'\n'
-	local id_list=( $( $ECHO $data | $GREP -Po "(?<=\?id=).+?(?=')" ) )
-	local name_list=( $( $ECHO $data | $GREP -Po '(?<=stationName">).+?(?=<)' ) )
+	local id_list=( $( $ECHO $data | $GREP -Po "(?<=onclick=\"indexUtil.setRadioDetail\(').+?(?=')" ) )
+	local name_list=( $( $ECHO $data | $GREP -Po '(?<=\t\t\t\t\t\t\t\t\t\t<p>).+?(?=<)' ) )
 
 	for i in "${!name_list[@]}"
 	do
-		$ECHO "${id_list[$i]} - ${name_list[$i]}"
+		$ECHO "${id_list[$i+1]} - ${name_list[$i]}"
 	done | $SORT -n -k1
 }
 

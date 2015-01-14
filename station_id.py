@@ -11,13 +11,13 @@ def hinet_radio_station_id():
 	return a dictionary{ (int) station_id : (utf8 string) "station_name" }
 	"""
 
-	base_url = "http://hichannel.hinet.net/radio/mobile/index.do"
+	base_url = "http://hichannel.hinet.net/radio/index.do"
 	base_url_data = urllib.urlopen( base_url ).read()
 
-	id_tmp = re.findall( "(?<=\?id=).+?(?=')" , base_url_data )
-	id = map( int , id_tmp )
+	id_tmp = re.findall( "(?<=onclick=\"indexUtil.setRadioDetail\(').+?(?=')" , base_url_data )
+	id = map( int , id_tmp[1:] )
 
-	name = re.findall( '(?<=stationName">).+?(?=<)' , base_url_data )
+	name = re.findall( '(?<=\t\t\t\t\t\t\t\t\t\t<p>).+?(?=<)' , base_url_data )
 
 	return dict( itertools.izip( id , name ) )
 
