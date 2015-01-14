@@ -11,7 +11,7 @@ function hinetRadioStreamUrl()
 	local GREP=/usr/bin/grep
 	local WGET='/usr/bin/wget -q -t 3 -O -'
 	
-	local base_url="http://hichannel.hinet.net/radio/mobile/index.do?id=$1"
+	local base_url="http://hichannel.hinet.net/radio/index.do?id=$1"
 	local url1="$( $WGET "$base_url" | $GREP -Po "(?<=').+token1.+token2.+?(?=')" | $SED 's/\\//g')"
 
 	local url2=''
