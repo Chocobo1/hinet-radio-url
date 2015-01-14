@@ -32,9 +32,9 @@ def hinet_radio_stream_url( id ):
 	url2 = url2.replace( "-video=0" , "" )
 	url3 = re.sub( "index.m3u8.*$" , "" , url1 ) + url2
 
-	name = re.search( "(?<=\"name\">).+?(?=<)" , url0 ).group()
+	name = re.search( "(?<=\"name\">).+?(?=<)" , url0 ).group().decode( 'utf-8' )
 
-	program = re.search( "(?<=programArea\">).+?(?=<)" , url0 ).group()
+	program = re.search( "(?<=programArea\">).+?(?=<)" , url0 ).group().decode( 'utf-8' )
 
 	return { 'Id' : id , 'Name' : name , 'Program' : program , 'Url' : url3 }
 
@@ -49,8 +49,8 @@ if __name__ == "__main__":
 		try:
 			l = hinet_radio_stream_url( i )
 			print ( "\nID: %s" ) % l['Id']
-			print ( "Name: %s" ) % l['Name'].decode( 'utf-8' ).encode( 'big5' )
-			print ( "Program: %s" ) % l['Program'].decode( 'utf-8' ).encode( 'big5' )
+			print ( "Name: %s" ) % l['Name'].encode( 'big5' )
+			print ( "Program: %s" ) % l['Program'].encode( 'big5' )
 			print ( "\nURL: %s" ) % l['Url']
 		except IOError:
 			pass
