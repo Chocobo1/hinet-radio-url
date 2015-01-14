@@ -17,12 +17,13 @@ def hinet_radio_station_id():
 	id_tmp = re.findall( "(?<=onclick=\"indexUtil.setRadioDetail\(').+?(?=')" , base_url_data )
 	id = map( int , id_tmp[1:] )
 
-	name = re.findall( '(?<=\t\t\t\t\t\t\t\t\t\t<p>).+?(?=<)' , base_url_data )
+	name_tmp = re.findall( '(?<=\t\t\t\t\t\t\t\t\t\t<p>).+?(?=<)' , base_url_data )
+	name = map( lambda x: x.decode( 'utf-8' ) , name_tmp )
 
-	return dict( itertools.izip( id , name ) )
+	return dict( itertools.izip_longest( id , name ) )
 
 
 if __name__ == "__main__":
 	id_list = hinet_radio_station_id()
 	for i in sorted( id_list ):  # same as `sorted( id_list.keys() )`
-		print "%d - %s" % ( i , id_list[ i ].decode( 'utf-8' ).encode( 'big5' ) )
+		print "%d - %s" % ( i , id_list[ i ].encode( 'big5' ) )
