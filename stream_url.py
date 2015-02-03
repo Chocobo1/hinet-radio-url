@@ -1,7 +1,6 @@
 #!/bin/python2
 """
-Copyright (C) 2014 Mike Tzou
-This script is licensed under GPLv3 (http://www.gnu.org/licenses/gpl-3.0.html)
+Chocobo1 (Mike Tzou), 2015
 """
 
 import re , urllib
