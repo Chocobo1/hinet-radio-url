@@ -3,21 +3,35 @@
 Chocobo1 (Mike Tzou), 2015
 """
 
-import re , urllib , itertools
+import re , urllib , json , itertools
 
 def hinet_radio_station_id():
 	"""
 	return a dictionary{ (int) station_id : (utf8 string) "station_name" }
 	"""
 
-	base_url = "http://hichannel.hinet.net/radio/index.do"
-	base_url_data = urllib.urlopen( base_url ).read()
+	base_url = "http://hichannel.hinet.net/radio/channelList.do?pN="
 
-	id_tmp = re.findall( "(?<=onclick=\"indexUtil.setRadioDetail\(').+?(?=')" , base_url_data )
-	id = map( int , id_tmp[1:] )
+	id = []
+	name = []
+	current_page = 1
+	total_pages = 2
+	while ( current_page <= total_pages ):
+		base_url_data = urllib.urlopen( base_url + str( current_page ) )
+		json_data = json.load( base_url_data , 'utf-8' )
 
-	name_tmp = re.findall( '(?<=\t\t\t\t\t\t\t\t\t\t<p>).+?(?=<)' , base_url_data )
-	name = map( lambda x: x.decode( 'utf-8' ) , name_tmp )
+		if ( current_page == 1 ):
+			total_pages = json_data[ "pageSize" ]
+		current_page += 1
+
+		for i in xrange( 0 , len( json_data[ "list" ] ) ):
+			try:
+				id.append( json_data[ "list" ][i][ "channel_id" ] )
+				name.append( json_data[ "list" ][i][ "channel_title" ] )
+			except (KeyError):
+				pass
+
+	id = map( int , id )
 
 	return dict( itertools.izip_longest( id , name ) )
 
