@@ -10,7 +10,7 @@ def hinet_radio_station_id():
 	return a dictionary{ (int) station_id : (utf8 string) "station_name" }
 	"""
 
-	base_url = "http://hichannel.hinet.net/radio/channelList.do?pN="
+	base_url = "https://hichannel.hinet.net/radio/channelList.do?pN="
 
 	id = []
 	name = []

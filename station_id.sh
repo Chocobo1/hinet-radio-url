@@ -8,7 +8,7 @@ function hinetRadioStationId()
 	local SORT=/usr/bin/sort
 	local WGET='/usr/bin/wget -q -t 3 -O -'
 
-	local base_url='http://hichannel.hinet.net/radio/channelList.do?pN='
+	local base_url='https://hichannel.hinet.net/radio/channelList.do?pN='
 
 	local id_list
 	local name_list

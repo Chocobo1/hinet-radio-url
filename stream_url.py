@@ -18,7 +18,7 @@ def hinet_radio_stream_url( id ):
 	id = should be valid radio station ID
 	"""
 
-	url0 = "http://hichannel.hinet.net/radio/play.do?id=" + str( id )
+	url0 = "https://hichannel.hinet.net/radio/play.do?id=" + str( id )
 	url0 = urllib.urlopen( url0 ).read()
 
 	try:
