@@ -1,5 +1,7 @@
 ﻿## HiNet radio url
-Fetch [HiNet radio](http://hichannel.hinet.net/radio/index.do) stream URL to play in your favourite audio player! (The player should support [HLS](https://developer.apple.com/streaming/) of course...
+Fetch [HiNet radio stream](http://hichannel.hinet.net/radio/index.do) to play it in your favourite audio player!
 
-## Inplementation
+(the player should support [HLS](https://developer.apple.com/streaming/) of course...
+
+## Implementation
 Python2 & Shell
