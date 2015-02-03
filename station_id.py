@@ -3,7 +3,7 @@
 Chocobo1 (Mike Tzou), 2015
 """
 
-import re , urllib , json , itertools
+import urllib , json , itertools
 
 def hinet_radio_station_id():
 	"""
@@ -24,11 +24,12 @@ def hinet_radio_station_id():
 			total_pages = json_data[ "pageSize" ]
 		current_page += 1
 
-		for i in xrange( 0 , len( json_data[ "list" ] ) ):
+		t = json_data[ "list" ]
+		for i in xrange( 0 , len( t ) ):
 			try:
-				id.append( json_data[ "list" ][i][ "channel_id" ] )
-				name.append( json_data[ "list" ][i][ "channel_title" ] )
-			except (KeyError):
+				id.append( t[i][ "channel_id" ] )
+				name.append( t[i][ "channel_title" ] )
+			except ( KeyError ):
 				pass
 
 	id = map( int , id )
