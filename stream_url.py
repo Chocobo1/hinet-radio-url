@@ -18,24 +18,22 @@ def hinet_radio_stream_url( id ):
 	id = should be valid radio station ID
 	"""
 
-	url0 = "http://hichannel.hinet.net/radio/index.do?id=" + str( id )
+	url0 = "http://hichannel.hinet.net/radio/play.do?id=" + str( id )
 	url0 = urllib.urlopen( url0 ).read()
 
 	try:
-		url1 = re.search( "(?<=').+token1.+token2.+?(?=')" , url0 ).group()
+		radio_url1 = re.search( "(?<=\"playRadio\":\").+?(?=\")" , url0 ).group()
 	except AttributeError:
 		raise IOError( "variable `id` invalid" )
-	url1 = url1.replace( "\\" , "" )
-	url2 = urllib.urlopen( url1 ).read()
-	url2 = re.search( "^.+token1.+token2.+" , url2 , re.MULTILINE ).group()
-	url2 = url2.replace( "-video=0" , "" )
-	url3 = re.sub( "index.m3u8.*$" , "" , url1 ) + url2
+	radio_url2 = urllib.urlopen( radio_url1 ).read()
+	radio_url2 = re.search( "^.+token1.+token2.+" , radio_url2 , re.MULTILINE ).group()
+	radio_url2 = radio_url2.replace( "-video=0" , "" )
+	radio_url3 = re.sub( "index.m3u8.*$" , "" , radio_url1 ) + radio_url2
 
-	name = re.search( "(?<=\"name\">).+?(?=<)" , url0 ).group().decode( 'utf-8' )
+	name = re.search( "(?<=\"channel_title\":\").+?(?=\")" , url0 ).group().decode( 'utf-8' )
+	program = re.search( "(?<=\"programName\":\").+?(?=\")" , url0 ).group().decode( 'utf-8' )
 
-	program = re.search( "(?<=programArea\">).+?(?=<)" , url0 ).group().decode( 'utf-8' )
-
-	return { 'Id' : id , 'Name' : name , 'Program' : program , 'Url' : url3 }
+	return { 'Id' : id , 'Name' : name , 'Program' : program , 'Url' : radio_url3 }
 
 
 import sys
