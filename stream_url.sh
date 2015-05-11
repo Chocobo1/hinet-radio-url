@@ -12,9 +12,9 @@ function hinetRadioStreamUrl()
 	local ECHO=/usr/bin/echo
 	local GREP=/usr/bin/grep
 	local WGET='/usr/bin/wget -q -t 3 -O -'
-	
+
 	local base_url="https://hichannel.hinet.net/radio/play.do?id=$1"
-	local url0="$( $WGET "$base_url" )"
+	local url0="$( $WGET --header="Referer: $base_url" "$base_url" )"
 
 	local radio_url1="$( $ECHO "$url0" | $GREP -Po "(?<=\"playRadio\":\").+?(?=\")" )"
 	local radio_url2=''

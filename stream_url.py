@@ -3,7 +3,7 @@
 Chocobo1 (Mike Tzou), 2015
 """
 
-import re , urllib
+import re , urllib2
 
 def hinet_radio_stream_url( id ):
 	"""
@@ -18,14 +18,16 @@ def hinet_radio_stream_url( id ):
 	id = should be valid radio station ID
 	"""
 
-	url0 = "https://hichannel.hinet.net/radio/play.do?id=" + str( id )
-	url0 = urllib.urlopen( url0 ).read()
+	base_url = "https://hichannel.hinet.net/radio/play.do?id=" + str( id )
+	url0 = urllib2.Request( base_url )
+	url0.add_header( "Referer" , base_url )
+	url0 = urllib2.urlopen( url0 ).read()
 
 	try:
 		radio_url1 = re.search( "(?<=\"playRadio\":\").+?(?=\")" , url0 ).group()
 	except AttributeError:
 		raise IOError( "variable `id` invalid" )
-	radio_url2 = urllib.urlopen( radio_url1 ).read()
+	radio_url2 = urllib2.urlopen( radio_url1 ).read()
 	radio_url2 = re.search( "^.+token1.+token2.+" , radio_url2 , re.MULTILINE ).group()
 	radio_url2 = radio_url2.replace( "-video=0" , "" )
 	radio_url3 = re.sub( "index.m3u8.*$" , "" , radio_url1 ) + radio_url2
